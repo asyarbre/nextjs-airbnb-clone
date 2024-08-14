@@ -4,7 +4,7 @@ const nextConfig = {
     dirs: ['src'],
   },
   images: {
-    domains: ['gravatar.com', 'a0.muscache.com'],
+    domains: ['gravatar.com', 'a0.muscache.com', 'avatar.vercel.sh'],
   },
 };
 

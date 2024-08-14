@@ -25,7 +25,7 @@ export default function FilterItems() {
   );
 
   return (
-    <section className='flex justify-between mt-5 w-full overflow-x-scroll no-scrollbar'>
+    <section className='flex gap-x-10 mt-5 w-full overflow-x-scroll no-scrollbar md:gap-x-0 md:justify-between'>
       {categoryItems.map((item) => (
         <Link
           key={item.id}
