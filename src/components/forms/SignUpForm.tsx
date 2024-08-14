@@ -17,6 +17,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { useToast } from '@/components/ui/use-toast';
 
 const FormSchema = z
   .object({
@@ -34,6 +35,7 @@ const FormSchema = z
   });
 
 export default function SignUpForm() {
+  const { toast } = useToast();
   const router = useRouter();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -60,8 +62,16 @@ export default function SignUpForm() {
 
     if (response.ok) {
       router.push('/signin');
+      toast({
+        title: 'Success',
+        description: 'You have successfully signed up',
+      });
     } else {
-      alert('An error occurred');
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'An error occurred while signing up',
+      });
     }
   };
   return (

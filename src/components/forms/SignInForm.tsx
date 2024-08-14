@@ -18,6 +18,8 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { useToast } from '@/components/ui/use-toast';
+import { title } from 'process';
 
 const FormSchema = z.object({
   email: z.string().min(1, 'Email is required').email('Invalid email'),
@@ -28,6 +30,7 @@ const FormSchema = z.object({
 });
 
 export default function SignInForm() {
+  const { toast } = useToast();
   const router = useRouter();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -45,10 +48,18 @@ export default function SignInForm() {
     });
 
     if (signInData?.error) {
-      alert(signInData.error);
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: signInData.error,
+      });
     } else {
       router.push('/');
       router.refresh();
+      toast({
+        title: 'Success',
+        description: 'You have successfully signed in',
+      });
     }
   };
   return (
