@@ -11,11 +11,18 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
+import { createHome } from '@/actions/action';
+
 export default async function UserNav() {
   const session = await getServerSession(authOptions);
+
+  const createHomeWithId = createHome.bind(null, {
+    userId: (session?.user as { userId: number } | undefined)?.userId as number,
+  });
 
   return (
     <DropdownMenu>
@@ -38,6 +45,23 @@ export default async function UserNav() {
       <DropdownMenuContent align='end' className='w-[200px]'>
         {session?.user ? (
           <>
+            <DropdownMenuItem>
+              <form action={createHomeWithId} className='w-full'>
+                <button type='submit' className='w-full text-start'>
+                  Your Home
+                </button>
+              </form>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href='/home'>My Listings</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href='/favorite'>My Favorites</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href='/reservation'>My Reservations</Link>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
             <UserNavLogout />
           </>
         ) : (
