@@ -1,10 +1,11 @@
-import Link from 'next/link';
 import * as React from 'react';
 
+import CreationBottomBar from '@/components/elements/CreationBottomBar';
 import SelectedCategory from '@/components/elements/SelectedCategory';
-import { Button } from '@/components/ui/button';
 
-export default function StructurePage() {
+import { createCategoryPage } from '@/actions/action';
+
+export default function StructurePage({ params }: { params: { id: string } }) {
   return (
     <section>
       <div className='w-3/5 mx-auto'>
@@ -13,17 +14,10 @@ export default function StructurePage() {
         </h2>
       </div>
 
-      <form action=''>
+      <form action={createCategoryPage}>
+        <input type='hidden' name='homeId' value={params.id} />
         <SelectedCategory />
-
-        <div className='fixed w-full bottom-0 z-10 bg-white border-t h-24'>
-          <div className='flex items-center justify-between mx-auto px-5 lg:px-10 h-full'>
-            <Button variant='outline' asChild>
-              <Link href='/'>Cancel</Link>
-            </Button>
-            <Button>Save</Button>
-          </div>
-        </div>
+        <CreationBottomBar />
       </form>
     </section>
   );

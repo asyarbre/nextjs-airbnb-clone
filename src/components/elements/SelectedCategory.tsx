@@ -8,12 +8,17 @@ import { categoryItems } from '@/data/categoryItems';
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function SelectedCategory() {
-  const [selectedCategory, setSelectedCategory] = React.useState<string | null>(
-    null,
-  );
+  const [selectedCategory, setSelectedCategory] = React.useState<
+    string | undefined
+  >(undefined);
 
   return (
     <div className='grid grid-cols-4 gap-8 mt-10 w-3/5 mx-auto mb-32'>
+      <input
+        type='hidden'
+        name='categoryName'
+        value={selectedCategory as string}
+      />
       {categoryItems.map((category) => (
         <div key={category.id} className='cursor-pointer'>
           <Card
