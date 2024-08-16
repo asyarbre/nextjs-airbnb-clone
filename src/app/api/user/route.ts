@@ -1,7 +1,8 @@
-import prisma from '@/lib/db';
-import { NextResponse } from 'next/server';
 import { hash } from 'bcrypt';
+import { NextResponse } from 'next/server';
 import * as z from 'zod';
+
+import prisma from '@/lib/db';
 
 const userSchema = z.object({
   username: z
