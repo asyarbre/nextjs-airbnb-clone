@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import * as React from 'react';
 
+import { CreationSubmit } from '@/components/elements/SubmitButton';
 import { Button } from '@/components/ui/button';
 
 export default function CreationBottomBar() {
@@ -10,7 +11,7 @@ export default function CreationBottomBar() {
         <Button variant='outline' asChild>
           <Link href='/'>Cancel</Link>
         </Button>
-        <Button>Next</Button>
+        <CreationSubmit />
       </div>
     </div>
   );
