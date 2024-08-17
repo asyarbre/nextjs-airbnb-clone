@@ -1,5 +1,7 @@
+import { getServerSession } from 'next-auth';
 import * as React from 'react';
 
+import { authOptions } from '@/lib/auth';
 import prisma from '@/lib/db';
 
 import FilterItems from '@/components/elements/FilterItems';
@@ -9,7 +11,9 @@ import SkeletonCard from '@/components/elements/SkeletonCard';
 
 async function getDataHome({
   searchParams,
+  userId,
 }: {
+  userId: number | undefined;
   searchParams?: { filter?: string };
 }) {
   const data = await prisma.home.findMany({
@@ -25,6 +29,11 @@ async function getDataHome({
       price: true,
       description: true,
       country: true,
+      Favorite: {
+        where: {
+          userId: Number(userId) ?? undefined,
+        },
+      },
     },
   });
 
@@ -51,7 +60,10 @@ async function ShowItems({
 }: {
   searchParams?: { filter?: string };
 }) {
-  const data = await getDataHome({ searchParams });
+  const session = await getServerSession(authOptions);
+  const userIdFromSession = (session?.user as { userId: number } | undefined)
+    ?.userId;
+  const data = await getDataHome({ searchParams, userId: userIdFromSession });
 
   return (
     <>
@@ -66,6 +78,11 @@ async function ShowItems({
               description={item.description as string}
               price={item.price as number}
               location={item.country as string}
+              userId={userIdFromSession}
+              favoriteId={item.Favorite[0]?.id as string}
+              isFavorite={item.Favorite.length > 0 ? true : false}
+              homeId={item.id}
+              pathname='/'
             />
           ))}
         </div>

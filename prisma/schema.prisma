@@ -15,14 +15,15 @@ datasource db {
 }
 
 model User {
-  id           Int      @id @default(autoincrement())
-  email        String   @unique
-  username     String   @unique
+  id           Int        @id @default(autoincrement())
+  email        String     @unique
+  username     String     @unique
   password     String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
   ProfileImage String?
   Home         Home[]
+  Favorite     Favorite[]
 }
 
 model Home {
@@ -43,4 +44,15 @@ model Home {
 
   User   User? @relation(fields: [userId], references: [id])
   userId Int?
+
+  Favorite Favorite[]
+}
+
+model Favorite {
+  id        String   @id @default(uuid())
+  User      User?    @relation(fields: [userId], references: [id])
+  userId    Int?
+  Home      Home?    @relation(fields: [homeId], references: [id])
+  homeId    String?
+  createdAt DateTime @default(now())
 }

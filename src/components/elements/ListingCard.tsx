@@ -4,11 +4,23 @@ import * as React from 'react';
 
 import { useCountries } from '@/lib/getCountries';
 
+import {
+  AddFavoriteButton,
+  DeleteFavoriteButton,
+} from '@/components/elements/SubmitButton';
+
+import { addToFavorite, deleteFavorite } from '@/actions/action';
+
 interface ListingCardProps {
   imagePath: string;
   description: string;
   location: string;
   price: number;
+  userId: number | undefined;
+  isFavorite: boolean;
+  favoriteId: string;
+  homeId: string;
+  pathname: string;
 }
 
 export default function ListingCard({
@@ -16,6 +28,11 @@ export default function ListingCard({
   description,
   location,
   price,
+  userId,
+  isFavorite,
+  favoriteId,
+  homeId,
+  pathname,
 }: ListingCardProps) {
   const { getCountryByValue } = useCountries();
   const country = getCountryByValue(location);
@@ -29,6 +46,25 @@ export default function ListingCard({
           fill
           className='rounded-lg h-full object-cover'
         />
+        {userId && (
+          <div className='z-10 absolute top-2 right-2'>
+            {isFavorite ? (
+              <form action={deleteFavorite}>
+                <input type='hidden' name='favoriteId' value={favoriteId} />
+                <input type='hidden' name='userId' value={userId} />
+                <input type='hidden' name='pathname' value={pathname} />
+                <DeleteFavoriteButton />
+              </form>
+            ) : (
+              <form action={addToFavorite}>
+                <input type='hidden' name='homeId' value={homeId} />
+                <input type='hidden' name='userId' value={userId} />
+                <input type='hidden' name='pathname' value={pathname} />
+                <AddFavoriteButton />
+              </form>
+            )}
+          </div>
+        )}
       </div>
       <Link href='/' className='mt-2'>
         <h3 className='font-medium text-base'>
