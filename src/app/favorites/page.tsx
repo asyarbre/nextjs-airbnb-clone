@@ -43,7 +43,10 @@ export default async function FavoritePage() {
       <h2 className='text-3xl font-semibold tracking-tighter'>Your Favorite</h2>
 
       {dataFavorite.length === 0 ? (
-        <NoItem />
+        <NoItem
+          title='You dont have any favorites'
+          description='Please add favorite to see them right here...'
+        />
       ) : (
         <div className='mt-8 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8'>
           {dataFavorite.map((item) => (

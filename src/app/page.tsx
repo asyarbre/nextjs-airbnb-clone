@@ -68,7 +68,10 @@ async function ShowItems({
   return (
     <>
       {data.length === 0 ? (
-        <NoItem />
+        <NoItem
+          title={`Sorry, we couldn't find any items that match your search criteria'`}
+          description='Please try another search or browse the available.'
+        />
       ) : (
         <div className='mt-8 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8'>
           {data.map((item) => (
