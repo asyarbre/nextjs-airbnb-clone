@@ -59,7 +59,7 @@ export default async function UserNav() {
               <Link href='/favorites'>My Favorites</Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link href='/reservation'>My Reservations</Link>
+              <Link href='/reservations'>My Reservations</Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <UserNavLogout />
