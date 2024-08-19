@@ -11,6 +11,7 @@ import { useCountries } from '@/lib/getCountries';
 
 import CategoryShowCase from '@/components/elements/CategoryShowCase';
 import { HomeMap } from '@/components/elements/HomeMap';
+import ReservationSubmitButton from '@/components/elements/SubmitButton';
 import { Button } from '@/components/ui/button';
 import Calendar from '@/components/ui/calendar';
 import { Separator } from '@/components/ui/separator';
@@ -37,6 +38,11 @@ async function getDataHome(homeId: string) {
         select: {
           ProfileImage: true,
           username: true,
+        },
+      },
+      Reservation: {
+        where: {
+          homeId: homeId,
         },
       },
     },
@@ -112,12 +118,10 @@ export default async function HomePage({ params }: { params: { id: string } }) {
         <form action={createReservation}>
           <input type='hidden' name='homeId' value={params.id} />
           <input type='hidden' name='userId' value={userIdFromSession} />
-          <Calendar />
+          <Calendar reservation={data?.Reservation} />
 
           {userIdFromSession ? (
-            <Button className='w-full' type='submit'>
-              Make a Reservation
-            </Button>
+            <ReservationSubmitButton />
           ) : (
             <Button className='w-full' asChild>
               <Link href='/signin'>Make a Reservation</Link>

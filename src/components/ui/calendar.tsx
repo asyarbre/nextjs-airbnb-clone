@@ -1,12 +1,22 @@
 'use client';
 
+import { eachDayOfInterval } from 'date-fns';
 import * as React from 'react';
 import { DateRange } from 'react-date-range';
 
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 
-export default function Calendar() {
+interface CalendarProps {
+  startDate: Date;
+  endDate: Date;
+}
+
+export default function Calendar({
+  reservation,
+}: {
+  reservation: CalendarProps[] | undefined;
+}) {
   const [state, setState] = React.useState([
     {
       startDate: new Date(),
@@ -14,6 +24,18 @@ export default function Calendar() {
       key: 'selection',
     },
   ]);
+
+  let disabledDates: Date[] = [];
+
+  reservation?.forEach((reservationItem) => {
+    const dateRange = eachDayOfInterval({
+      start: new Date(reservationItem.startDate),
+      end: new Date(reservationItem.endDate),
+    });
+
+    disabledDates = [...disabledDates, ...dateRange];
+  });
+
   return (
     <>
       <input
@@ -35,6 +57,7 @@ export default function Calendar() {
         onChange={(item) => setState([item.selection] as any)}
         minDate={new Date()}
         direction='vertical'
+        disabledDates={disabledDates}
       />
     </>
   );
