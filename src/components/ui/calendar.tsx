@@ -15,15 +15,27 @@ export default function Calendar() {
     },
   ]);
   return (
-    <DateRange
-      date={new Date()}
-      showDateDisplay={false}
-      rangeColors={['#FF5A5F']}
-      ranges={state}
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      onChange={(item) => setState([item.selection] as any)}
-      minDate={new Date()}
-      direction='vertical'
-    />
+    <>
+      <input
+        type='hidden'
+        name='startDate'
+        value={state[0].startDate.toISOString()}
+      />
+      <input
+        type='hidden'
+        name='endDate'
+        value={state[0].endDate.toISOString()}
+      />
+      <DateRange
+        date={new Date()}
+        showDateDisplay={false}
+        rangeColors={['#FF5A5F']}
+        ranges={state}
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        onChange={(item) => setState([item.selection] as any)}
+        minDate={new Date()}
+        direction='vertical'
+      />
+    </>
   );
 }

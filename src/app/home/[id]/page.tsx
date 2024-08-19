@@ -1,13 +1,21 @@
 import { Bath, Bed, PersonStanding } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
+import { redirect } from 'next/navigation';
+import { getServerSession } from 'next-auth';
 import * as React from 'react';
 
+import { authOptions } from '@/lib/auth';
 import prisma from '@/lib/db';
 import { useCountries } from '@/lib/getCountries';
 
 import CategoryShowCase from '@/components/elements/CategoryShowCase';
 import { HomeMap } from '@/components/elements/HomeMap';
+import { Button } from '@/components/ui/button';
+import Calendar from '@/components/ui/calendar';
 import { Separator } from '@/components/ui/separator';
+
+import { createReservation } from '@/actions/action';
 
 async function getDataHome(homeId: string) {
   const dataHome = await prisma.home.findUnique({
@@ -41,6 +49,12 @@ export default async function HomePage({ params }: { params: { id: string } }) {
   const data = await getDataHome(params.id);
   const { getCountryByValue } = useCountries();
   const country = getCountryByValue(data?.country as string);
+
+  const session = await getServerSession(authOptions);
+  const userIdFromSession = (session?.user as { userId: number } | undefined)
+    ?.userId;
+
+  if (!userIdFromSession) return redirect('/');
 
   return (
     <section className='container mx-auto w-[75%] my-10'>
@@ -95,6 +109,21 @@ export default async function HomePage({ params }: { params: { id: string } }) {
           <Separator className='my-6' />
           <HomeMap locationValue={country?.value as string} />
         </div>
+        <form action={createReservation}>
+          <input type='hidden' name='homeId' value={params.id} />
+          <input type='hidden' name='userId' value={userIdFromSession} />
+          <Calendar />
+
+          {userIdFromSession ? (
+            <Button className='w-full' type='submit'>
+              Make a Reservation
+            </Button>
+          ) : (
+            <Button className='w-full' asChild>
+              <Link href='/signin'>Make a Reservation</Link>
+            </Button>
+          )}
+        </form>
       </div>
     </section>
   );
