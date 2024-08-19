@@ -14,7 +14,13 @@ async function getDataHome({
   userId,
 }: {
   userId: number | undefined;
-  searchParams?: { filter?: string };
+  searchParams?: {
+    filter?: string;
+    country?: string;
+    guest?: string;
+    room?: string;
+    bathroom?: string;
+  };
 }) {
   const data = await prisma.home.findMany({
     where: {
@@ -22,6 +28,10 @@ async function getDataHome({
       addedDescription: true,
       addedLocation: true,
       categoryName: searchParams?.filter ?? undefined,
+      country: searchParams?.country ?? undefined,
+      guests: searchParams?.guest ?? undefined,
+      bedrooms: searchParams?.room ?? undefined,
+      bathrooms: searchParams?.bathroom ?? undefined,
     },
     select: {
       id: true,
@@ -43,7 +53,13 @@ async function getDataHome({
 export default function Home({
   searchParams,
 }: {
-  searchParams?: { filter?: string };
+  searchParams?: {
+    filter?: string;
+    country?: string;
+    guest?: string;
+    room?: string;
+    bathroom?: string;
+  };
 }) {
   return (
     <section className='container px-5 lg:px-10 mb-24'>
@@ -58,7 +74,13 @@ export default function Home({
 async function ShowItems({
   searchParams,
 }: {
-  searchParams?: { filter?: string };
+  searchParams?: {
+    filter?: string;
+    country?: string;
+    guest?: string;
+    room?: string;
+    bathroom?: string;
+  };
 }) {
   const session = await getServerSession(authOptions);
   const userIdFromSession = (session?.user as { userId: number } | undefined)

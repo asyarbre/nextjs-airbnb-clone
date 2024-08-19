@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import * as React from 'react';
 
+import SearchBar from '@/components/elements/SearchBar';
 import UserNav from '@/components/elements/UserNav';
 
 import Logo from '../../../public/images/logo.png';
@@ -15,6 +16,7 @@ export default function Navbar() {
           <Image src={Logo} alt='logo' className='w-32 hidden lg:block' />
           <Image src={LogoMobile} alt='logo' className='w-12 block lg:hidden' />
         </Link>
+        <SearchBar />
 
         <UserNav />
       </div>
