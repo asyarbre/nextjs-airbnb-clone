@@ -12,7 +12,8 @@
     "typecheck": "tsc --noEmit --incremental false",
     "format": "prettier -w .",
     "format:check": "prettier -c .",
-    "prepare": "husky"
+    "prepare": "husky",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
